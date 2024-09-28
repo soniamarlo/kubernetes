@@ -1,0 +1,47 @@
+replicaCount: 2
+
+image:
+  nginx:
+    repository: nginx
+    tag: "1.21.3"
+    pullPolicy: IfNotPresent
+  mariadb:
+    repository: bitnami/mariadb
+    tag: "10.5.10"
+    pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+mariadb:
+  user: root
+  password: mariadb-password
+  dbname: exampledb
+  persistence:
+    enabled: true
+    size: 1Gi
+
+ingress:
+  enabled: true
+  hosts:
+    - host: nginx-app.local
+      paths:
+        - path: /
+    - host: mariadb-app.local
+      paths:
+        - path: /
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 200m
+    memory: 256Mi
+
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70

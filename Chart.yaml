@@ -1,0 +1,5 @@
+apiVersion: v2
+name: nginx-mariadb
+description: A Helm chart for Nginx and MariaDB deployment
+version: 0.1.0
+appVersion: "1.0"
